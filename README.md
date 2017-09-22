@@ -18,12 +18,11 @@
 > GetVersion
 >> 获得版本号和版本名字
 
-
 > HtmlUtils
 >> 判断html长度
 
 > Installation
->> 获得唯一标识ID和随机的UUID
+>> 获得唯一标识ID和随机的UUID以及应用包名
 
 > JudgePhone
 >> 判断是否是手机号
@@ -46,3 +45,14 @@
 > StatusBarUtils
 >> 修改状态栏字体颜色兼容魅族和小米
 
+> GetReallyUri
+>> 获得android7.0真实的uri
+
+> KeyBoardUtils
+>> 打开或关闭软键盘
+
+> ScreenBrightnessUtils
+>> 屏幕亮度控制工具类
+
+> SharedPreferencesUtils
+>> SharedPreference工具类

@@ -1,7 +1,10 @@
 package test.guojian.com.androidutils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -84,5 +87,21 @@ public class Installation {
         String id = UUID.randomUUID().toString();
         out.write(id.getBytes());
         out.close();
+    }
+
+
+    /**
+     * 得到包名
+     *
+     * @param pckName
+     * @return
+     */
+    public static PackageInfo getPackageInfo(Context context, String pckName) {
+        try {
+            return context.getPackageManager().getPackageInfo(pckName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("haha", e.getMessage());
+        }
+        return null;
     }
 }
