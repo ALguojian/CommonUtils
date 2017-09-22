@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Built application files  //
+=======
+# Built application files
+>>>>>>> ae791e792436adacddca0dd860942168a0770355
 *.apk
 *.ap_
 
@@ -35,6 +39,27 @@ captures/
 # Intellij
 *.iml
 .idea/workspace.xml
+<<<<<<< HEAD
 
 # Keystore files
 *.jks
+=======
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries
+.idea/libraries
+
+# Keystore files
+*.jks
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
+>>>>>>> ae791e792436adacddca0dd860942168a0770355
