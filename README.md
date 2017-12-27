@@ -56,3 +56,14 @@
 
 > SharedPreferencesUtils
 >> SharedPreference工具类
+
+> TabUtils
+>> 设置TabLayout指示器宽度
+```
+tab_view.post(new Runnable() {
+    @Override
+    public void run() {
+        TabUtils.setIndicator(tab_view,10,10);
+    }
+});
+```
