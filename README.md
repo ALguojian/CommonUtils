@@ -1,5 +1,25 @@
 ### Android常用工具类
 
+[![](https://jitpack.io/v/ALguojian/CommonUtils.svg)](https://jitpack.io/#ALguojian/CommonUtils)
+
+1.Add it in your root build.gradle at the end of repositories:
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+2.Add the dependency
+```
+	dependencies {
+	        compile 'com.github.ALguojian:CommonUtils:v1.0'
+	}
+
+```
+
 > AppManager
 >> activity管理类
 
