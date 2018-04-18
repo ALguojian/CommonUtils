@@ -19,6 +19,8 @@
 	}
 
 ```
+> Numutils
+>>格式化两位小数
 
 > AppManager
 >> activity管理类
@@ -87,3 +89,5 @@ tab_view.post(new Runnable() {
     }
 });
 ```
+
+

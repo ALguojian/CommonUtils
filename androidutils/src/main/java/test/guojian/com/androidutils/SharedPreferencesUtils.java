@@ -1,5 +1,6 @@
 package test.guojian.com.androidutils;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -12,121 +13,171 @@ import java.util.Map;
 public class SharedPreferencesUtils {
 
     /**
-     * 保存在手机里面的文件名
+     * 存储用信息的sp的xml名字
      */
-    public static final String FILE_NAME = "my_share_preferences";
+    public static final String FILE_NAME = "xiaodian";
 
     /**
-     * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
-     *
-     * @param context
-     * @param key
-     * @param object
+     * 用户登录下之后的token
      */
-    public static void put(Context context, String key, Object object) {
+    public static final String TOKEN = "token";
 
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+    /**
+     * 用于判断是否为认证的服务商
+     */
+    public static final String PARTNER_TYPE = "partner_type";
 
-        if (object instanceof String) {
-            editor.putString(key, (String) object);
-        } else if (object instanceof Integer) {
-            editor.putInt(key, (Integer) object);
-        } else if (object instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) object);
-        } else if (object instanceof Float) {
-            editor.putFloat(key, (Float) object);
-        } else if (object instanceof Long) {
-            editor.putLong(key, (Long) object);
-        } else {
-            editor.putString(key, object.toString());
-        }
+    /**
+     * 是否为第一次登陆
+     */
+    public static final String FIRST_ENTER = "first_enter";
 
-        /**
-         * commit操作使用了SharedPreferencesCompat.apply进行了替代，目的是尽可能的使用apply代替commit
-         * 因为commit方法是同步的，并且我们很多时候的commit操作都是UI线程中，毕竟是IO操作，尽可能异步；
-         */
+    /**
+     * 是否为认证的店主
+     */
+    public static final String VERIFY_STATUS = "verify_status";
+
+    /**
+     * 获得token
+     *
+     * @return
+     */
+    public static String getToken() {
+
+        return getStringData(TOKEN, null);
+    }
+
+    public static void saveToken(String string) {
+
+        saveStringData(TOKEN, string);
+    }
+    
+    public static Application application;
+    
+    public static void setContext(Application context){
+        
+        application=context;
+    }
+
+
+    /**
+     * 用于判断是否为第一次登陆
+     *
+     * @return
+     */
+    public static boolean isFirstLogin() {
+
+        return "0".equals(getStringData(FIRST_ENTER, ""));
+    }
+
+    /**
+     * 用于判断是否服务商认证
+     *
+     * @return
+     */
+    public static String getPartnerType() {
+
+        return getStringData(PARTNER_TYPE, "");
+    }
+
+    /**
+     * 用于判断是否为店主认证
+     *
+     * @return
+     */
+    public static String getVerifyStatus() {
+
+        return getStringData(VERIFY_STATUS, "");
+    }
+
+
+    /**
+     * 保存数据到文件
+     *
+     * @param key
+     * @param data
+     */
+    public static void saveStringData(String key, String data) {
+
+        SharedPreferences.Editor editor = getEditor();
+        editor.putString(key, data);
         editor.apply();
     }
 
+
     /**
-     * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
+     * 保存数据到文件
      *
-     * @param context
      * @param key
-     * @param defaultObject
+     * @param data
+     */
+    public static void saveBooleanData(String key, boolean data) {
+
+        SharedPreferences.Editor editor = getEditor();
+        editor.putBoolean(key, data);
+        editor.apply();
+    }
+
+
+    private static SharedPreferences.Editor getEditor() {
+        return application
+                .getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+                .edit();
+    }
+
+    private static SharedPreferences getSharePreference() {
+        return application
+                .getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    }
+
+
+    /**
+     * 从文件中读取数据
+     *
+     * @param key
      * @return
      */
-    public static Object get(Context context, String key, Object defaultObject) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static String getStringData(String key, String ss) {
 
-        if (defaultObject instanceof String) {
-            return sp.getString(key, (String) defaultObject);
-        } else if (defaultObject instanceof Integer) {
-            return sp.getInt(key, (Integer) defaultObject);
-        } else if (defaultObject instanceof Boolean) {
-            return sp.getBoolean(key, (Boolean) defaultObject);
-        } else if (defaultObject instanceof Float) {
-            return sp.getFloat(key, (Float) defaultObject);
-        } else if (defaultObject instanceof Long) {
-            return sp.getLong(key, (Long) defaultObject);
-        }
-
-        return null;
+        return getSharePreference().getString(key, ss);
     }
 
     /**
-     * 移除某个key值已经对应的值
+     * 从文件中读取数据
      *
-     * @param context
+     * @param key
+     * @return
+     */
+    public static boolean getBooleanData(String key) {
+
+        return getSharePreference().getBoolean(key, false);
+    }
+
+
+    /**
+     * 通过key删除对应数据
+     *
      * @param key
      */
-    public static void remove(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+    public static void remove(Context context,String key) {
+        SharedPreferences preference = context.getSharedPreferences(key, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preference.edit();
         editor.remove(key);
         editor.apply();
     }
 
     /**
-     * 清除所有数据
+     * 通过名字清除对应的share所有信息
      *
-     * @param context
+     * @param fileName
      */
-    public static void clear(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear().apply();
+    public static void clean(String fileName) {
 
+        SharedPreferences preference = application.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preference.edit();
+        editor.clear();
+        editor.apply();
     }
 
-    /**
-     * 查询某个key是否已经存在
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static boolean contains(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
-        return sp.contains(key);
-    }
-
-    /**
-     * 返回所有的键值对
-     *
-     * @param context
-     * @return
-     */
-    public static Map<String, ?> getAll(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
-        return sp.getAll();
-    }
 
 }
